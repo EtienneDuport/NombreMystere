@@ -11,7 +11,7 @@ namespace ConsoleApplication1
         static void Main(string[] args)
         {
             bool quitter = false, sortir = false, trouver = false;
-            int erreursMenu = 0, erreursDiff = 0, erreursNombre = 0, choix, nombreMystere, essais=-1;
+            int erreursMenu = 0, erreursDiff = 0, erreursNombre = 0, choix, nombreMystere, essais;
             Console.WriteLine("JEU DU PLUS OU DU MOINS");
             while (!quitter)
             {
@@ -40,16 +40,21 @@ namespace ConsoleApplication1
                                         try
                                         {
                                             choix = Convert.ToInt32(Console.ReadLine());
-                                            if (choix == nombreMystere)
-                                                sortir = trouver = true;
+                                            if (choix == nombreMystere){
+                                                sortir = true;
+                                                Console.WriteLine("\nGagné !\n");
+                                            }  
                                             else
                                             {
-                                                if (choix < nombreMystere)
+                                                if (--essais == 0){
+                                                    sortir = true;
+                                                    Console.WriteLine("\nPerdu !\n");
+                                                }
+                                                else if (choix < nombreMystere)
                                                     Console.WriteLine("\nTrop petit !");
                                                 else
                                                     Console.WriteLine("\nTrop grand !");
                                             }
-                                            if (--essais == 0) sortir = true;
                                         }
                                         catch (Exception)
                                         {
@@ -71,8 +76,6 @@ namespace ConsoleApplication1
                                         erreursDiff = 0;
                                     }
                                 }
-                                if (trouver == true) Console.WriteLine("\nGagné !\n");
-                                else if (essais == 0) Console.WriteLine("\nPerdu !\n");
                             }
                             catch (Exception)
                             {
