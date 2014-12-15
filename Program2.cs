@@ -10,9 +10,10 @@ namespace ConsoleApplication1
     {
         static void Main(string[] args)
         {
-            bool quitter = false, sortir = false, trouver = false;
+            bool quitter = false, sortir = false;
             int erreursMenu = 0, erreursDiff = 0, erreursNombre = 0, choix, nombreMystere, essais;
             Console.WriteLine("JEU DU PLUS OU DU MOINS");
+            //Boucle du menu
             while (!quitter)
             {
                 Console.WriteLine("\n---MENU---\nRègle  : 1\nJouer  : 2\nSortir : 3\n");
@@ -24,17 +25,18 @@ namespace ConsoleApplication1
                     else if (choix == 2)
                     {
                         sortir = false;
+                        //Boucle du jeu
                         while (!sortir)
                         {
                             try
                             {
                                 Console.WriteLine("\n-Difficulté-\nDébutant : 1\nMoyen    : 2\nBon      : 3\nExpert   : 4\n");
                                 choix = Convert.ToInt32(Console.ReadLine());
-                                trouver = false; 
                                 if (1 < choix && choix < 5)
                                 {
                                     essais = 11 - choix;
                                     Console.WriteLine("Saisissez un nombre entre 1 et 99 inclus :\n");
+                                    //Boucle de la saisie du nombre
                                     while (!sortir)
                                     {
                                         try
