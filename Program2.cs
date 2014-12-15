@@ -10,100 +10,93 @@ namespace ConsoleApplication1
     {
         static void Main(string[] args)
         {
-            int nombreDeCoups = 0, nombreEssaisMax = 10, reponsesIncorrectes, reponsesFausses, choixErrones, nombreMystere;
-            bool trouve = false, quitter = false, choixDiff;
+            bool quitter = false, sortir = false, trouver = false;
+            int erreursMenu = 0, erreursDiff = 0, erreursNombre = 0, choix, nombreMystere, essais=-1;
             Console.WriteLine("JEU DU PLUS OU DU MOINS");
-            
-            while (quitter==false)
+            while (!quitter)
             {
+                Console.WriteLine("\n---MENU---\nRègle  : 1\nJouer  : 2\nSortir : 3\n");
                 nombreMystere = new Random().Next(0, 100);
-                
-                Console.WriteLine("\nAfficher la règle du jeu : 1\nCommencer une partie : 2\nQuitter le jeu : 3\n");
-                
                 try
                 {
-                    int choix = Convert.ToInt32(Console.ReadLine());
-                
-                    if (choix == 1)
-                    {
-                        Console.WriteLine("\nRègle : trouver le nombre mystère en maximum 10 essais.\n---Appuyez sur une touche---");
-                        Console.ReadLine();
-                    }
+                    choix = Convert.ToInt32(Console.ReadLine());
+                    if (choix == 1) Console.WriteLine("\nRègle : trouver le nombre mystère en maximum 10 essais.\n");
                     else if (choix == 2)
                     {
-                        Console.WriteLine("\nNiveau de difficulté :\nDébutant : 1\nMoyen : 2\nBon : 3\nExpert : 4\n");
-                        
-                        reponsesFausses = 0;
-                        while(reponsesFausses < 3)
+                        sortir = false;
+                        while (!sortir)
                         {
                             try
                             {
-                                choixDiff = false;
-                                choixErrones = 0;
-                                while(!choixDiff && choixErrones < 3){
-                                    int choix2 = Convert.ToInt32(Console.ReadLine());
-                                    if (choix2 <= 4 && choix2 >= 1)
-                                    {    
-                                        nombreEssaisMax = 11 - choix2;
-                                        choixDiff = true;
-                                    }else{
-                                        Console.WriteLine("\nSaisir 1, 2, 3 ou 4 !\n");
-                                        choixErrones++;
-                                    }
-                                }
-                                
-                                if (choixErrones == 3)
-                                    nombreEssaisMax = 0;
-                                
-                                reponsesIncorrectes = 0;    
-                                while (!trouve && nombreEssaisMax > 0 && reponsesIncorrectes < 3)
+                                Console.WriteLine("\n-Difficulté-\nDébutant : 1\nMoyen    : 2\nBon      : 3\nExpert   : 4\n");
+                                choix = Convert.ToInt32(Console.ReadLine());
+                                trouver = false; 
+                                if (1 < choix && choix < 5)
                                 {
-                                    try
+                                    essais = 11 - choix;
+                                    Console.WriteLine("Saisissez un nombre entre 1 et 99 inclus :\n");
+                                    while (!sortir)
                                     {
-                                        Console.WriteLine("\nSaisissez un nombre compris entre 1 et 99 inclus :\n");
-                                        int saisie = Convert.ToInt32(Console.ReadLine());
-                                
-                                        if (saisie == nombreMystere)
-                                            trouve = true;
-                                        else
+                                        try
                                         {
-                                            if (saisie < nombreMystere)
-                                                Console.WriteLine("\nTrop petit !");
+                                            choix = Convert.ToInt32(Console.ReadLine());
+                                            if (choix == nombreMystere)
+                                                sortir = trouver = true;
                                             else
-                                                Console.WriteLine("\nTrop grand !");
-                                            Console.WriteLine("\nPlus que " + (nombreEssaisMax-1) + " essais. Recommencez :\n");
+                                            {
+                                                if (choix < nombreMystere)
+                                                    Console.WriteLine("\nTrop petit !");
+                                                else
+                                                    Console.WriteLine("\nTrop grand !");
+                                            }
+                                            if (--essais == 0) sortir = true;
                                         }
-                                        nombreEssaisMax--;
-                                        nombreDeCoups++;
-                                    }
-                                    catch (Exception)
-                                    {
-                                        Console.WriteLine("\nCeci n'est pas un nombre ! Tapez un nombre en chiffre.\n");
-                                        reponsesIncorrectes++;
+                                        catch (Exception)
+                                        {
+                                            Console.WriteLine("\nVeuillez taper un nombre en CHIFFRES.\n");
+                                            if (++erreursNombre == 3)
+                                            {
+                                                sortir = true;
+                                                erreursNombre = 0;
+                                            }
+                                        }
                                     }
                                 }
-                                if (trouve == true)
-                                    Console.WriteLine("\nBravo, vous avez trouvé en seulement" + nombreDeCoups + " coup(s) !\n");
-                                else if (reponsesFausses >=3)
-                                    Console.WriteLine("\nRetour au menu !\n");
                                 else
-                                    Console.WriteLine("\nPerdu...\n");
+                                {
+                                    Console.WriteLine("\nVeuillez taper 1, 2, 3 ou 4.\n"); 
+                                    if (++erreursDiff == 3)
+                                    {
+                                        sortir = true;
+                                        erreursDiff = 0;
+                                    }
+                                }
+                                if (trouver == true) Console.WriteLine("\nGagné !\n");
+                                else if (essais == 0) Console.WriteLine("\nPerdu !\n");
                             }
                             catch (Exception)
                             {
-                                Console.WriteLine("\nSaisir 1, 2, 3 ou 4 !\n");
-                                reponsesFausses++;
+                                Console.WriteLine("\nVeuillez taper un nombre en CHIFFRES.\n");
+                                if (++erreursDiff == 3)
+                                {
+                                    sortir = true;
+                                    erreursDiff = 0;
+                                }
                             }
                         }
                     }
-                    else if (choix == 3)
-                        quitter = true;
+                    else if (choix == 3) quitter = true;
                     else
-                        Console.WriteLine("\nNombre incorrect ! Tapez 1, 2, ou 3.\n");
-                }catch(Exception){
-                    Console.WriteLine("\nSaisie incorrecte ! Tapez 1, 2 ou 3.\n");
+                    {
+                        Console.WriteLine("\nVeuillez taper 1, 2 ou 3.\n");
+                        if (++erreursMenu == 3) quitter = true;
+                    }
                 }
-                    
+                catch (Exception)
+                {
+                    Console.WriteLine("\nVeuillez taper un nombre en CHIFFRES.\n"); 
+                    if (++erreursMenu == 3) quitter = true;
+                }
             }
         }
     }
