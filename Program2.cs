@@ -115,7 +115,7 @@ namespace ConsoleApplication1
                             }
                             catch (Exception)
                             {
-                                Console.WriteLine("\nSaisir un NOMBRE en chiffres !\n");
+                                Console.WriteLine("\nNombre incorrect ! Tapez 1, 2, 3 ou 4.\n");
                                 reponsesFausses++;
                             }
                         }
@@ -123,7 +123,7 @@ namespace ConsoleApplication1
                     else if (choix == 3)
                         quitter = true;
                     else
-                        Console.WriteLine("\nNombre incorrect ! Tapez 1, 2, 3 ou 4.\n");
+                        Console.WriteLine("\nNombre incorrect ! Tapez 1, 2, ou 3.\n");
                 }catch(Exception){
                     Console.WriteLine("\nSaisie incorrecte ! Tapez 1, 2 ou 3.\n");
                 }
